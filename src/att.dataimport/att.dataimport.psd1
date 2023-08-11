@@ -24,8 +24,11 @@
     FunctionsToExport = 'Connect-Service',
                         'Disconnect-Service',
                         'New-DatabaseConnection',
+                        'Update-DatabaseSchema',
                         'Import-JobChangeDatData',
-                        'Update-DatabaseSchema'
+                        'Import-MergerXrefDatData',
+                        'Import-OSuitsDatData',
+                        'Import-SuitsDatData'
 
     DefaultCommandPrefix = "DataImport" 
 }

@@ -12,14 +12,6 @@
         $Line
     )
 
-    begin
-    {
-        <#
-            #ATTUID|Last|First|CUID|BLSUID|BLSCUID|HRID|MgrATTUID|Job-Change-YYYYMMDD
-            aa1234|JOHN DOE|JOHN DOE|aa1234|ABC1234|ABC1234|1234567|bb1234|20230731
-            aa2345|JANE DOE|JANE DOE|aa2345|XYZ1234|XYZ1234|0123456|cc1234|20230701
-        #>
-    }
     process
     {
         $chunks = $line.Split("|")
@@ -42,19 +34,16 @@
 
         $datarow = $DataTable.NewRow()
 
-        $null = $dataRow["ATTUID"]        = $chunks[0].ToString()
-        $null = $dataRow["Lastname"]      = $chunks[1].ToString()
-        $null = $dataRow["Firstname"]     = $chunks[2].ToString()
-        $null = $dataRow["CUID"]          = $chunks[3].ToString()
-        $null = $dataRow["BLSUID"]        = $chunks[5].ToString()
-        $null = $dataRow["BLSCUID"]       = $chunks[5].ToString()
-        $null = $dataRow["HRID"]          = $chunks[6].ToString()
-        $null = $dataRow["MgrATTUID"]     = $chunks[7].ToString()
+        $null = $dataRow["ATTUID"]        = [string]::IsNullOrWhiteSpace($chunks[0].ToString())  ? $null : $chunks[0].ToString()
+        $null = $dataRow["Lastname"]      = [string]::IsNullOrWhiteSpace($chunks[1].ToString())  ? $null : $chunks[1].ToString()
+        $null = $dataRow["Firstname"]     = [string]::IsNullOrWhiteSpace($chunks[2].ToString())  ? $null : $chunks[2].ToString()
+        $null = $dataRow["CUID"]          = [string]::IsNullOrWhiteSpace($chunks[3].ToString())  ? $null : $chunks[3].ToString()
+        $null = $dataRow["BLSUID"]        = [string]::IsNullOrWhiteSpace($chunks[4].ToString())  ? $null : $chunks[4].ToString()
+        $null = $dataRow["BLSCUID"]       = [string]::IsNullOrWhiteSpace($chunks[5].ToString())  ? $null : $chunks[5].ToString()
+        $null = $dataRow["HRID"]          = [string]::IsNullOrWhiteSpace($chunks[6].ToString())  ? $null : $chunks[6].ToString()
+        $null = $dataRow["MgrATTUID"]     = [string]::IsNullOrWhiteSpace($chunks[7].ToString())  ? $null : $chunks[7].ToString()
         $null = $dataRow["JobChangeDate"] = $date
        
         $null = $dataTable.Rows.Add($dataRow)
-    }
-    end
-    {
     }
 }

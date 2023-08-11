@@ -1,16 +1,19 @@
-﻿function Import-OSuitesDatData
+﻿function Import-SuitsDatData
 {
     [CmdletBinding()]
     param
     (
         [Parameter(Mandatory=$true)]
         [string]
-        $Path
+        $Path,
+
+        [Parameter(Mandatory=$false)]
+        [int]
+        $BatchSize = 10000
     )
 
     begin
     {
-
     }
     process
     {
@@ -19,9 +22,11 @@
             throw [System.IO.FileNotFoundException]::new( "DAT file not found.", $Path )         
         }
 
+        $dataTable = New-SuitesDataTable
+
+        Import-DatFile -Path $Path -DataTable $dataTable -Delegate ${function:Add-SuitDataRow} -BatchSize $BatchSize
     }
     end
     {
-        
     }
 }

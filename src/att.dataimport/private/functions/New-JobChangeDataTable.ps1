@@ -10,7 +10,9 @@
     }
     process
     {
-        $dataTable = New-Object System.Data.DataTable
+        # keep in sync with src\att.dataimport\private\sql\table.attimport.jobchange.sql
+        
+        $dataTable = [System.Data.DataTable]::new("attimport.JobChange")
 
         $null = $datatable.Columns.Add("Id") 
         $null = $datatable.Columns.Add("ATTUID") 

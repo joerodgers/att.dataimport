@@ -1,6 +1,4 @@
-﻿using namespace Tenant.SiteMetadata
-
-function New-SqlServerDatabaseConnection
+﻿function New-SqlServerDatabaseConnection
 {
     [cmdletbinding()]
     param

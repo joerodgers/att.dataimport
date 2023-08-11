@@ -6,11 +6,7 @@
         [parameter(Mandatory=$true)]
         [System.Data.DataTable]
         $DataTable,
-
-        [Parameter(Mandatory=$true)]
-        [string]
-        $DestinationTableName,
-    
+   
         [Parameter(Mandatory=$false)]
         [int]
         $ConnectionTimeout = 15,
@@ -37,7 +33,7 @@
             {
                 # create the bulk insert object
                 $bulkCopy = New-Object System.Data.SqlClient.SqlBulkCopy($connection)
-                $bulkCopy.DestinationTableName = $DestinationTableName
+                $bulkCopy.DestinationTableName = $DataTable.TableName
                 $bulkCopy.BatchSize            = $BatchSize
                 $bulkCopy.BulkCopyTimeout      = 10000000
                 $bulkCopy.NotifyAfter          = $NotifyAfter

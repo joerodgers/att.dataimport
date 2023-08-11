@@ -20,4 +20,4 @@ Connect-DataImportService -DatabaseConnection $dc -ErrorAction Stop
 
 Import-DataImportOSuitsDatData -Path "C:\_projects\att.dataimport\src\dev\osuits.txt"
                                                   
-Stop-SiteCertificationLogFileLogger
+Stop-DataImportLogFileLogger

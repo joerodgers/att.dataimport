@@ -20,4 +20,4 @@ Connect-DataImportService -DatabaseConnection $dc -ErrorAction Stop
 
 Import-DataImportMergerXrefDatData -Path "C:\_projects\att.dataimport\src\dev\mergerXref.txt"
                                                   
-Stop-SiteCertificationLogFileLogger
+Stop-DataImportLogFileLogger

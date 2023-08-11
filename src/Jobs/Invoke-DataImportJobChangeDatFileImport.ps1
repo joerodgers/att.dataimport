@@ -20,4 +20,4 @@ Connect-DataImportService -DatabaseConnection $dc -ErrorAction Stop
 
 Import-DataImportJobChangeDatData -Path "C:\_projects\att.dataimport\src\att.dataimport\dev\jobchange.txt"
                                                   
-Stop-SiteCertificationLogFileLogger
+Stop-DataImportLogFileLogger

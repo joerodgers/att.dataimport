@@ -20,4 +20,4 @@ Connect-DataImportService -DatabaseConnection $dc -ErrorAction Stop
 
 Update-DataImportDatabaseSchema -Verbose
                                                   
-Stop-SiteCertificationLogFileLogger
+Stop-DataImportLogFileLogger

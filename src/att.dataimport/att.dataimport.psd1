@@ -3,7 +3,7 @@
     RootModule = 'att.dataimport.psm1'
 
     # Version number of this module.
-    ModuleVersion = '1.0.2'
+    ModuleVersion = '1.0.3'
 
     # ID used to uniquely identify this module
     GUID = '7c3b3167-a8c0-45bd-807b-791be6445b43'
@@ -28,7 +28,9 @@
                         'Import-JobChangeDatData',
                         'Import-MergerXrefDatData',
                         'Import-OSuitsDatData',
-                        'Import-SuitsDatData'
+                        'Import-SuitsDatData',
+                        'Start-LogFileLogger',
+                        'Stop-LogFileLogger'
 
     DefaultCommandPrefix = "DataImport" 
 }

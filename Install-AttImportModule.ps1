@@ -52,7 +52,7 @@ begin
     }
 
     # Name of the module that is being cloned
-    $moduleName = "att.import"
+    $moduleName = "att.dataimport"
     
     # Name of the organization that is being cloned
     $organizationName = "joerodgers"

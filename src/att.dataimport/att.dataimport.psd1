@@ -3,7 +3,7 @@
     RootModule = 'att.dataimport.psm1'
 
     # Version number of this module.
-    ModuleVersion = '1.0.0'
+    ModuleVersion = '1.0.1'
 
     # ID used to uniquely identify this module
     GUID = '7c3b3167-a8c0-45bd-807b-791be6445b43'
@@ -15,7 +15,7 @@
     PowerShellVersion = '7.2'
 
     # Assemblies that must be loaded prior to importing this module
-    # RequiredAssemblies = @()
+    RequiredAssemblies = @( 'bin\Microsoft.Identity.Client.dll' )
 
     # Modules that must be imported into the global environment prior to importing this module
     RequiredModules = @{ModuleName="PSFramework"; ModuleVersion="1.8.291" }

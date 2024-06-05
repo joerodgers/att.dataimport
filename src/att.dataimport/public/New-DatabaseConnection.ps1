@@ -5,12 +5,14 @@
     (
         # Name of the SQL database
         [Parameter(Mandatory=$true,ParameterSetName="TrustedConnection")]
+        [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalThumbprint")]
         [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalCertificate")]
         [string]
         $DatabaseName,
 
         # Name of the SQL server or SQL and instance name
         [Parameter(Mandatory=$true,ParameterSetName="TrustedConnection")]
+        [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalThumbprint")]
         [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalCertificate")]
         [string]
         $DatabaseServer,
@@ -24,16 +26,22 @@
         [switch]
         $Encrypt,
 
+        [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalThumbprint")]
         [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalCertificate")]
         [string]
         $ClientId,
 
-        [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalCertificate")]
+        [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalThumbprint")]
         [string]
         $CertificateThumbprint,
 
         [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalCertificate")]
-        [string]
+        [System.Security.Cryptography.X509Certificates.X509Certificate2]
+        $Certificate,
+
+        [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalThumbprint")]
+        [Parameter(Mandatory=$true,ParameterSetName="ServicePrincipalCertificate")]
+        [Guid]
         $TenantId
     )
 
@@ -52,9 +60,9 @@
             }
         }
         
-        if( $PSCmdlet.ParameterSetName -eq "ServicePrincipalCertificate" )
+        if( $PSCmdlet.ParameterSetName -eq "ServicePrincipalThumbprint" )
         {
-            return New-Object DataImport.ServicePrincipalDatabaseConnection -Property @{
+            return New-Object DataImport.ServicePrincipalCertificateThumbprintDatabaseConnection -Property @{
                 DatabaseName          = $DatabaseName
                 DatabaseServer        = $DatabaseServer
                 ConnectTimeout        = $ConnectTimeout
@@ -62,6 +70,19 @@
                 ClientId              = $ClientId
                 CertificateThumbprint = $CertificateThumbprint
                 TenantId              = $TenantId
+            }
+        }
+
+        if( $PSCmdlet.ParameterSetName -eq "ServicePrincipalCertificate" )
+        {
+            return New-Object DataImport.ServicePrincipalCertificateDatabaseConnection -Property @{
+                DatabaseName    = $DatabaseName
+                DatabaseServer  = $DatabaseServer
+                ConnectTimeout  = $ConnectTimeout
+                Encrypt         = $true
+                ClientId        = $ClientId
+                Certificate     = $Certificate
+                TenantId        = $TenantId
             }
         }
 

@@ -12,9 +12,9 @@ function New-AzureSqlAccessToken
         $ClientId,
 
         # Azure AD App Principal Application/Client Secret
-        [Parameter(Mandatory=$true)]
-        [string]
-        $CertificateThumbprint,
+        [Parameter(Mandatory=$true,ParameterSetName="Certificate")]
+        [System.Security.Cryptography.X509Certificates.X509Certificate2]
+        $Certificate,
 
         # Azure AD TenantId
         [Parameter(Mandatory=$true)]
@@ -29,26 +29,15 @@ function New-AzureSqlAccessToken
     }
     process
     {
-        $certificate = Get-ChildItem -Path Cert:\LocalMachine\My\$CertificateThumbprint -ErrorAction Stop
+        $confidentialClientApplication = New-ConfidentialClientApplication -ClientId $ClientId -Certificate $Certificate -TenantId $TenantId
 
-        if( $false )
-        {
-            $authenticationManager = [PnP.Framework.AuthenticationManager]::CreateWithCertificate( $ClientId, $certificate, $TenantId )
-            
-            $authenticationManager.GetAccessTokenAsync( @(,"https://database.windows.net/") ).GetAwaiter().GetResult()
-        }
-        else 
-        {
-            $confidentialClientApplication = New-ConfidentialClientApplication -ClientId $ClientId -Certificate $certificate -TenantId $TenantId
+        $authenticationResult = $confidentialClientApplication. `
+                                            AcquireTokenForClient( $scopes ). `
+                                            ExecuteAsync(). `
+                                            GetAwaiter(). `
+                                            GetResult()
 
-            $authenticationResult = $confidentialClientApplication. `
-                                                AcquireTokenForClient( $scopes ). `
-                                                ExecuteAsync(). `
-                                                GetAwaiter(). `
-                                                GetResult()
-
-            $authenticationResult.AccessToken
-        }
+        $authenticationResult.AccessToken
     }
 }
 

@@ -31,7 +31,7 @@
             {
                 $connection = New-Object System.Data.SqlClient.SqlConnection($sqlConnectionStringBuilder.PSBase.ConnectionString)
             }
-            elseif( $databaseConnection -is [DataImport.ServicePrincipalDatabaseConnection] )
+            else
             {
                 $sqlConnectionStringBuilder.PSBase.IntegratedSecurity     = $false
                 $sqlConnectionStringBuilder.PSBase.Encrypt                = $true
@@ -40,15 +40,24 @@
     
                 $connection = New-Object System.Data.SqlClient.SqlConnection($sqlConnectionStringBuilder.PSBase.ConnectionString)
     
+                if( $databaseConnection -is [DataImport.ServicePrincipalCertificateThumbprintDatabaseConnection] )
+                {
+                    $certificate = Get-ChildItem -Path Cert:\LocalMachine\My\$($databaseConnection.CertificateThumbprint) -ErrorAction Stop
+                }
+                elseif( $databaseConnection -is [DataImport.ServicePrincipalCertificateDatabaseConnection] )
+                {
+                    $certificate = $databaseConnection.Certificate
+                }
+
                 # generate an access token from Azure AD
                 $accessToken = New-AzureSqlAccessToken `
-                                    -ClientId              $databaseConnection.ClientId `
-                                    -CertificateThumbprint $databaseConnection.CertificateThumbprint `
-                                    -TenantId              $databaseConnection.TenantId
+                                    -ClientId    $databaseConnection.ClientId `
+                                    -Certificate $certificate `
+                                    -TenantId    $databaseConnection.TenantId
 
                 $connection.AccessToken = $accessToken
             }
-    
+
             Write-PSFMessage -Level Debug -Message "Opening database connection with connection string: $($sqlConnectionStringBuilder.PSBase.ConnectionString)"
 
             # open the connection
